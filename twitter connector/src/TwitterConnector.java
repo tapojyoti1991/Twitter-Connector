@@ -36,9 +36,9 @@ public class TwitterConnector {
 			System.out.println(users.get(0).getName());
 			User u=users.get(0);//storing the obtained user as an object
 			
-			File f=new File("C:\\Users\\Tapo\\"+rightnow.get(Calendar.YEAR)+"\\"+(rightnow.get(Calendar.MONTH)+1)+"\\"+rightnow.get(Calendar.DATE));
+			File f=new File("tweets\\"+rightnow.get(Calendar.YEAR)+"\\"+(rightnow.get(Calendar.MONTH)+1)+"\\"+rightnow.get(Calendar.DATE));
 			f.mkdirs();// creating directories
-			fw=new FileWriter(new File("C:\\Users\\Tapo\\"+rightnow.get(Calendar.YEAR)+"\\"+(rightnow.get(Calendar.MONTH)+1)+"\\"+rightnow.get(Calendar.DATE)+"\\"+u.getName()+".txt"));
+			fw=new FileWriter(new File("tweets\\"+rightnow.get(Calendar.YEAR)+"\\"+(rightnow.get(Calendar.MONTH)+1)+"\\"+rightnow.get(Calendar.DATE)+"\\"+u.getName()+".txt"));
 			List<Status> statuses = t.getUserTimeline(users.get(0).getId(),new Paging(1, 200));// retrieves the recent tweets by the user 200 per page
 			updateFile(statuses);
 			
@@ -47,14 +47,14 @@ public class TwitterConnector {
 		}
 		br.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("file not found, please check location");
-			e.printStackTrace();
+			System.out.println("source file not found, please check location(handles.txt)");
+			
 		} catch (IOException e) {
 			System.out.println("error in reading from file.");
-			e.printStackTrace();
+			
 		} catch (TwitterException e) {
 			System.out.println("Error retrieving data");
-			e.printStackTrace();
+			
 		}
 	}
 	public void updateFile(List<Status> statuses)
@@ -72,7 +72,7 @@ public class TwitterConnector {
 					fw.append(status.getId() +"\t"+ status.getText()+"\r\n");
 				} catch (IOException e) {
 					System.out.println("error in writing to file");
-					e.printStackTrace();
+				
 				}
 			}
 		}
